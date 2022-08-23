@@ -10,12 +10,16 @@
   },
   "dependencies": {
     "expo": "~46.0.8",
+    "expo-constants": "~13.2.3",
     "expo-status-bar": "~1.4.0",
     "react": "18.0.0",
-    "react-native": "0.69.4"
+    "react-native": "0.69.4",
+    "react-router-native": "^6.3.0",
+    "socket.io-client": "^4.5.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "@expo/ngrok": "^4.1.0"
   },
   "private": true
 }
