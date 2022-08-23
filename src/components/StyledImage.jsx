@@ -1,6 +1,13 @@
 import { Image, StyleSheet } from "react-native";
 
-export const StyledImage = ({ rounded, uri, width, heigh, circle }) => {
+export const StyledImage = ({
+  rounded,
+  uri,
+  width,
+  heigh,
+  circle,
+  ...props
+}) => {
   const imageStyle = [
     styles.image,
     { width: width },
@@ -9,11 +16,12 @@ export const StyledImage = ({ rounded, uri, width, heigh, circle }) => {
     circle && styles.circle,
   ];
 
-  return <Image style={imageStyle} source={{ uri: uri }} />;
+  return <Image style={imageStyle} source={{ uri: uri }} {...props} />;
 };
 
 const styles = StyleSheet.create({
   image: {},
+
   circle: {
     borderRadius: 30,
   },

@@ -12,7 +12,7 @@ export const theme = {
     secondary:"#C4C4C4",
     tertiary:"#F0F0F0",
     white: "#fff",
-    background: "#f7efd6",
+    background: "#edf7ff",
     tableStatuses : {
       free: "#24CE85",
       pending: "#C4C4C4",

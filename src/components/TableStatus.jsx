@@ -2,10 +2,10 @@ import { StyleSheet } from "react-native";
 import { theme } from "../theme";
 import { StyledText } from "./StyledText";
 
-export const TableStatus = ({ id, name, ...props }) => {
+export const TableStatus = ({ children, id, name, ...props }) => {
   return (
     <StyledText style={[styles.status, styles[name]]} {...props}>
-      {name}
+      {children}
     </StyledText>
   );
 };

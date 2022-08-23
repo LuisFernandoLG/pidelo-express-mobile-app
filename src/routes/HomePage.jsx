@@ -1,13 +1,10 @@
-import { View } from "react-native";
 import { FlexContainer } from "../components/FlexContainer";
 import { TableList } from "../components/TableList";
 
 export const HomePage = () => {
   return (
-    <View>
-      <FlexContainer flex_ai_c pd={20}>
+    <FlexContainer flex={1} flex_ai_c flex_jc_c pdTop={20}>
         <TableList />
-      </FlexContainer>
-    </View>
+    </FlexContainer>
   );
 };

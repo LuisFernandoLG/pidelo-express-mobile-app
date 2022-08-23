@@ -1,16 +1,18 @@
-import { FlatList } from "react-native";
+import {  FlatList, StyleSheet } from "react-native";
 import { TableItem } from "../components/TableItem";
-import { StyledText } from "../components/StyledText";
 import { useTableList } from "../hooks/useTableList";
-
+import { FlexContainer } from "./FlexContainer";
+import { Loader } from "./Loader";
 
 export const TableList = () => {
-  const {tables} = useTableList()
+  const { tables } = useTableList();
 
   return (
     <>
       {tables ? (
+        <FlexContainer>
         <FlatList
+          style={styles.flatList}
           data={tables}
           numColumns={2}
           renderItem={({ item: table }) => {
@@ -23,9 +25,16 @@ export const TableList = () => {
             );
           }}
         />
+      </FlexContainer>
       ) : (
-        <StyledText>Loading</StyledText>
+        <Loader/>
       )}
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  flatList: {
+
+  },
+});

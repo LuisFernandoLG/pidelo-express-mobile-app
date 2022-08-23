@@ -15,11 +15,19 @@ export const FlexContainer = ({
   flex_ai_bl,
   flex_ai_s,
   pd,
+  pdTop,
+  pdBottom,
+  flex,
+  flexGrow,
   style = {},
   ...rest
 }) => {
   const containerStyle = [
     flex_direction_r && styles.flex_direction_r,
+    flex && { flex: flex },
+    flexGrow && { flexGrow: flexGrow },
+    pdTop && { paddingTop: pdTop },
+    pdBottom && { paddingBottom: pdBottom },
     flex_jc_c && styles.flex_jc_c,
     flex_jc_fs && styles.flex_jc_fs,
     flex_jc_fe && styles.flex_jc_fe,
@@ -33,7 +41,7 @@ export const FlexContainer = ({
     flex_ai_bl && styles.flex_ai_bl,
     flex_ai_s && styles.flex_ai_s,
 
-    pd && {padding: pd},
+    pd && { padding: pd },
 
     style,
   ];
