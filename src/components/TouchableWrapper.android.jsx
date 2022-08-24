@@ -1,20 +1,20 @@
 import { useState } from "react";
-import { TouchableNativeFeedback } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { theme } from "../theme";
 
-export const TouchableWrapper = ({ children }) => {
-  const [rippleOverflow, setRippleOverflow] = useState(false);
+export const TouchableWrapper = ({ children, ...props }) => {
   return (
-    <TouchableNativeFeedback
-      background={TouchableNativeFeedback.Ripple(
-        theme.colors.secondary,
-        rippleOverflow
-      )}
-      onPress={() => {
-        setRippleOverflow(!rippleOverflow);
-      }}
-    >
+    <View style={styles.container}>
+    <Pressable style={{borderRadius:80}} android_ripple={{ color: theme.colors.secondary, borderless: false}} {...props}>
       {children}
-    </TouchableNativeFeedback>
+    </Pressable>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    borderRadius: 80,
+    overflow:"hidden",
+  },
+});
