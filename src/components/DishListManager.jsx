@@ -15,6 +15,7 @@ export const DishListManager = ({dishes}) => {
           clientKey={item.client.clientKey}
           courseMealKey={item.courseMeal.courseMealKey}
           dishKey={item.dish.dishKey}
+          orderKey={item.order.orderKey}
         />
       )}
     />

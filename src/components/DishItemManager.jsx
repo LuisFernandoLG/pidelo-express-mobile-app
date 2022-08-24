@@ -5,13 +5,35 @@ import { StyledImage } from "./StyledImage";
 import { StyledText } from "./StyledText";
 import { Picker } from "@react-native-picker/picker";
 import { useEffect, useState } from "react";
+import { useDishItemManager } from "../hooks/useDishItemManager";
 
-const dishStates = [
+const onlyCookerDishStatuses = [
   { id: "62fc6794771920e088f6ad22", name: "Pendiente" }, // Pendiente
   { id: "62fc6794771920e088f6ad23", name: "En proceso" }, // En proceso
+];
+
+const onlyWaiterDishStatuses = [
   { id: "62fc6794771920e088f6ad24", name: "Por entregar" }, // Por entregar
   { id: "62fc6794771920e088f6ad25", name: "Entregada" }, // Entregada
 ];
+
+const dishStates = [...onlyCookerDishStatuses, ...onlyWaiterDishStatuses];
+
+const dishStatusForWaiter = ({ NoIncludeDishId }) => {
+  const statusesToReturn = [];
+  dishStates.forEach((dishState) => {
+    if (
+      dishState.id !== "62fc6794771920e088f6ad22" &&
+      !NoIncludeDishId.includes(dishState.id) &&
+      dishState.id !== "62fc6794771920e088f6ad23"
+    ) {
+      statusesToReturn.push(dishState);
+    }
+  });
+
+  // console.log({ statusesToReturn, NoIncludeDishId });
+  return statusesToReturn;
+};
 
 export const DishItemManager = ({
   dish,
@@ -19,21 +41,21 @@ export const DishItemManager = ({
   clientKey,
   dishKey,
   courseMealKey,
+  orderKey,
 }) => {
-  // console.log({ courseMealKey, clientKey, dishKey, status });
-  const [currenStatus, setCurrentStatus] = useState();
+  const { currenStatus, hanldeChangeValue } = useDishItemManager({
+    initialStatus: status,
+    dishKey,
+    clientKey,
+    courseMealKey,
+  });
 
-  console.log("rendering");
-
-  useEffect(() => {
-    console.log("manager redering");
-    const newStatus = dishStates.find((item) => item.id === status._id);
-    setCurrentStatus(newStatus);
-  }, []);
-
-  useEffect(() => {
-    console.log({ currenStatus });
-  }, [currenStatus]);
+  const isEnable = (status) => {
+    const onlyWaiter = onlyWaiterDishStatuses.some(
+      (item) => item.id === status._id
+    );
+    return onlyWaiter;
+  };
 
   return (
     <FlexContainer style={styles.container} flex={1}>
@@ -52,23 +74,34 @@ export const DishItemManager = ({
       </FlexContainer>
       {currenStatus && (
         <FlexContainer
-          style={[styles.pickerContainer, styles[currenStatus.name]]}
+          style={[
+            styles.pickerContainer,
+            styles[currenStatus.name],
+            // !isEnable && styles.containerDisable,
+          ]}
         >
           <Picker
+            enabled={isEnable(status)}
             style={styles.picker}
-            // placeholder="sss"
             selectedValue={currenStatus.name}
             onValueChange={(itemValue, itemIndex) => {
-              setCurrentStatus(itemValue);
+              hanldeChangeValue({
+                newStatus: itemValue,
+                orderKey,
+                courseMealKey,
+                clientKey,
+                dishKey,
+              });
             }}
           >
-            {}
             <Picker.Item
               key={0}
               label={currenStatus.name}
               value={currenStatus}
             />
-            {dishStates.map((item) => (
+            {dishStatusForWaiter({
+              NoIncludeDishId: [currenStatus._id],
+            }).map((item) => (
               <Picker.Item key={item.id} label={item.name} value={item} />
             ))}
           </Picker>
@@ -107,6 +140,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderBottomEndRadius: 10,
     borderBottomStartRadius: 10,
+  },
+  containerDisable: {
+    backgroundColor: "red",
+  },
+  isActive: {
+    backgroundColor: "transparent",
   },
   picker: {
     color: theme.colors.white,

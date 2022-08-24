@@ -15,16 +15,47 @@ export const useSelectFilters = () => {
 
   const { socket } = useWebSocketsIO();
 
+  const formataValuesAndSet = (orders)=>{
+    const onlyOrderValues = filterOrdersById({ orders });
+    setOrders(onlyOrderValues);   
+  }
+
   useEffect(() => {
     socket.emit("client:waiter:getOrders", waiterId, (res) => {
       const onlyOrderValues = filterOrdersById({ orders: res.orders });
       setOrders(onlyOrderValues);
     });
 
-    socket.on("server:orders", (orders) => {
-      setOrders(orders);
-    });
+    socket.on("server:orders", formataValuesAndSet);
+
+    return ()=>{
+      console.log("server:orders")
+      socket.off("server:orders", formataValuesAndSet)
+    }
   }, []);
+
+  useEffect(() => {
+    if (
+      orderSelected !== "" &&
+      courseMealSelected !== "" &&
+      clientSelected !== ""
+    ) {
+      const newDishes = filterDishesByClientId();
+      console.log({ newDishes, msg: "Todo seleccionado" });
+      setDishes(newDishes);
+    } else if (orderSelected !== "" && courseMealSelected !== "") {
+      const newDishes = filterDishesByIdAndCourseMealoId({
+        courseMeal: courseMealSelected,
+      });
+      console.log({ newDishes, msg: "orden y course seleccionados" });
+      setDishes(newDishes);
+    } else if (orderSelected !== "") {
+      const newDishes = filterDishesByOrderId({ orderId: orderSelected.id });
+      console.log({ newDishes });
+      setDishes(newDishes);
+      console.log({ newDishes, msg: "order seleccionada" });
+    }
+  }, [orders]);
 
   const filterDishesByOrderId = ({ orderId }) => {
     let dishesFound = [];
@@ -40,6 +71,7 @@ export const useSelectFilters = () => {
               dish: { ...dish, dishKey },
               courseMeal: { courseMealKey, name: courseMeal.name },
               client: { clientKey, name: client.name },
+              order: { orderKey: orderId },
             });
           });
         });
@@ -51,7 +83,13 @@ export const useSelectFilters = () => {
 
   const filterDishesByIdAndCourseMealoId = ({ courseMeal }) => {
     let dishesFound = [];
-    Object.entries(courseMeal.clients).forEach(([clientKey, client]) => {
+    const orderFound = orders.find((order) => order.id === orderSelected.id);
+    console.log({ orderFound });
+    const courseMealFound = Object.values(orderFound.courseMeals).find(
+      (item) => item._id === courseMealSelected.id
+    );
+
+    Object.entries(courseMealFound.clients).forEach(([clientKey, client]) => {
       Object.entries(client.dishes).forEach(([dishKey, dish]) => {
         dish.id.id = dishKey;
         dishesFound.push({
@@ -62,6 +100,7 @@ export const useSelectFilters = () => {
             name: courseMealSelected.name,
           },
           client: { clientKey, name: client.name },
+          order: { orderKey: orderSelected._id },
         });
       });
     });
@@ -70,17 +109,32 @@ export const useSelectFilters = () => {
   };
 
   const filterDishesByClientId = () => {
-    return Object.entries(clientSelected.dishes).map(([dishKey, dish]) => ({
-      dish:{
+    const orderFound = orders.find((order) => order.id === orderSelected.id);
+    console.log({ orderFound });
+    const courseMealFound = Object.values(orderFound.courseMeals).find(
+      (item) => item._id === courseMealSelected.id
+    );
+
+    const clientFound = Object.values(courseMealFound.clients).find(
+      (item) => item._id === clientSelected.id
+    );
+
+    return Object.entries(clientFound.dishes).map(([dishKey, dish]) => ({
+      dish: {
         ...dish,
-        dishKey
+        dishKey,
       },
       courseMeal: {
         courseMealKey: courseMealSelected.index,
         courseMeal: courseMealSelected.index,
         name: courseMealSelected.name,
       },
-      client: { clientKey: clientSelected.index ,id: clientSelected.index, name: clientSelected.name },
+      client: {
+        clientKey: clientSelected.index,
+        id: clientSelected.index,
+        name: clientSelected.name,
+      },
+      order: { orderKey: orderSelected._id },
     }));
   };
 
@@ -159,11 +213,6 @@ export const useSelectFilters = () => {
       }
     }
   }, [clientSelected]);
-
-  useEffect(() => {
-    // Podría guardar la key cada vez que se elige un select y así actualizar los platillos nuevamente.
-    // const newDi       m  shes = orders.courseMeals[]
-  }, [orders]);
 
   return {
     courseMeals,

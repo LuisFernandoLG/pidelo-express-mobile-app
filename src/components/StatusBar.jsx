@@ -1,9 +1,8 @@
-import { View, StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import Constants from "expo-constants";
 import { theme } from "../theme";
 import { StyledText } from "./StyledText";
 import { StyledImage } from "./StyledImage";
-import { Link } from "react-router-native";
 import { FlexContainer } from "./FlexContainer";
 import { StatusBarTab } from "./StatusBarTab";
 
