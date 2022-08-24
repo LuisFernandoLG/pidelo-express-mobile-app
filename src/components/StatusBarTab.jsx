@@ -37,8 +37,7 @@ const styles = StyleSheet.create({
     height: 5,
     borderRadius: 10,
     backgroundColor: theme.colors.secondary,
-    // overlayColor:"red",
-    // color:"red"
+    marginHorizontal:20
   },
   activeTab: {
     backgroundColor: theme.colors.primary,

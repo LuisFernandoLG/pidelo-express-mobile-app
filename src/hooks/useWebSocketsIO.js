@@ -38,7 +38,7 @@ export const useWebSocketsIO = () => {
   };
 
   const removeListenerForTables = () => {
-    // socket.off("server:tables", () => {});
+    socket.off("server:tables", () => {});
   };
 
   const getOrdersForWaiters = (cb) => {
@@ -55,7 +55,7 @@ export const useWebSocketsIO = () => {
   };
 
   const removeListenerForOrders = (cb) => {
-    // socket.off("server:orders", () => {});
+    socket.off("server:orders", () => {});
   };
 
   return {
