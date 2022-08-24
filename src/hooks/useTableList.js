@@ -100,7 +100,6 @@ export const useTableList = () => {
 
   useEffect(() => {
     getTablesFromDBEmit((tables)=>{
-      console.log("render first time again")
       setTables(tables);
     })
     

@@ -31,7 +31,6 @@ const dishStatusForWaiter = ({ NoIncludeDishId }) => {
     }
   });
 
-  // console.log({ statusesToReturn, NoIncludeDishId });
   return statusesToReturn;
 };
 

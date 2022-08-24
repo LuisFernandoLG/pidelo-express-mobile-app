@@ -19,7 +19,6 @@ export const OrdersPage = () => {
     orders,
   } = useSelectFilters();
 
-  console.log({ orderSelected, courseMealSelected, clientSelected });
 
   return (
     <View style={{ flex: 1 }}>

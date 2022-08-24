@@ -22,7 +22,6 @@ export const useDishItemManager = ({ initialStatus }) => {
   }) => {
     // Update it visually and DB
     setCurrentStatus(newStatus);
-    console.log({ orderKey, courseMealKey, clientKey, dishKey });
 
     const dbProps = {
       orderId: orderKey,

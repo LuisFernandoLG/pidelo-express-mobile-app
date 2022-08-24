@@ -40,19 +40,15 @@ export const useSelectFilters = () => {
       clientSelected !== ""
     ) {
       const newDishes = filterDishesByClientId();
-      console.log({ newDishes, msg: "Todo seleccionado" });
       setDishes(newDishes);
     } else if (orderSelected !== "" && courseMealSelected !== "") {
       const newDishes = filterDishesByIdAndCourseMealoId({
         courseMeal: courseMealSelected,
       });
-      console.log({ newDishes, msg: "orden y course seleccionados" });
       setDishes(newDishes);
     } else if (orderSelected !== "") {
       const newDishes = filterDishesByOrderId({ orderId: orderSelected.id });
-      console.log({ newDishes });
       setDishes(newDishes);
-      console.log({ newDishes, msg: "order seleccionada" });
     }
   }, [orders]);
 
@@ -83,7 +79,6 @@ export const useSelectFilters = () => {
   const filterDishesByIdAndCourseMealoId = ({ courseMeal }) => {
     let dishesFound = [];
     const orderFound = orders.find((order) => order.id === orderSelected.id);
-    console.log({ orderFound });
     const courseMealFound = Object.values(orderFound.courseMeals).find(
       (item) => item._id === courseMealSelected.id
     );
@@ -109,7 +104,6 @@ export const useSelectFilters = () => {
 
   const filterDishesByClientId = () => {
     const orderFound = orders.find((order) => order.id === orderSelected.id);
-    console.log({ orderFound });
     const courseMealFound = Object.values(orderFound.courseMeals).find(
       (item) => item._id === courseMealSelected.id
     );
@@ -166,7 +160,6 @@ export const useSelectFilters = () => {
   };
 
   useEffect(() => {
-    console.log({ orderSelected });
     if (orderSelected !== "") {
       const dishesFound = filterDishesByOrderId({ orderId: orderSelected.id });
       setDishes(dishesFound);
