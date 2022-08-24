@@ -18,6 +18,12 @@ export const theme = {
       pending: "#C4C4C4",
       inProcess : "#ff9800",
       completed: "#2196f5"
+    },
+    dishStatuses:{
+      pending: "#C4C4C4",
+      inProcess : "#ff9800",
+      delivering: "#2196f5",
+      completed: "#24CE85",
     }
   },
 
