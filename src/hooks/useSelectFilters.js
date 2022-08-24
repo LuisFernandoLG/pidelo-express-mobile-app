@@ -37,9 +37,9 @@ export const useSelectFilters = () => {
           Object.entries(client.dishes).forEach(([dishKey, dish]) => {
             dish.id.id = dishKey;
             dishesFound.push({
-              dish,
-              courseMeal: { id: courseMealKey, name: courseMeal.name },
-              client: { id: clientKey, name: client.name },
+              dish: { ...dish, dishKey },
+              courseMeal: { courseMealKey, name: courseMeal.name },
+              client: { clientKey, name: client.name },
             });
           });
         });
@@ -51,20 +51,17 @@ export const useSelectFilters = () => {
 
   const filterDishesByIdAndCourseMealoId = ({ courseMeal }) => {
     let dishesFound = [];
-    // const orderFound = orders.find((order) => order.id === orderSelected.id);
-    // const courseMealFound = Object.values(orderFound.courseMeals)[
-    //   courseMealSelected.index
-    // ];
     Object.entries(courseMeal.clients).forEach(([clientKey, client]) => {
       Object.entries(client.dishes).forEach(([dishKey, dish]) => {
         dish.id.id = dishKey;
         dishesFound.push({
-          dish,
+          dish: { ...dish, dishKey },
           courseMeal: {
+            courseMealKey: courseMealSelected.index,
             id: courseMealSelected.index,
             name: courseMealSelected.name,
           },
-          client: { id: clientKey, name: client.name },
+          client: { clientKey, name: client.name },
         });
       });
     });
@@ -73,13 +70,17 @@ export const useSelectFilters = () => {
   };
 
   const filterDishesByClientId = () => {
-    return Object.values(clientSelected.dishes).map((dish, index) => ({
-      dish,
+    return Object.entries(clientSelected.dishes).map(([dishKey, dish]) => ({
+      dish:{
+        ...dish,
+        dishKey
+      },
       courseMeal: {
+        courseMealKey: courseMealSelected.index,
         courseMeal: courseMealSelected.index,
         name: courseMealSelected.name,
       },
-      client: { id: clientSelected.index, name: clientSelected.name },
+      client: { clientKey: clientSelected.index ,id: clientSelected.index, name: clientSelected.name },
     }));
   };
 
@@ -112,7 +113,7 @@ export const useSelectFilters = () => {
   };
 
   useEffect(() => {
-    console.log({orderSelected})
+    console.log({ orderSelected });
     if (orderSelected !== "") {
       const dishesFound = filterDishesByOrderId({ orderId: orderSelected.id });
       setDishes(dishesFound);

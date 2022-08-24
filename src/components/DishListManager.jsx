@@ -12,6 +12,9 @@ export const DishListManager = ({dishes}) => {
           key={item.dish._id}
           dish={item.dish.id}
           status={item.dish.status}
+          clientKey={item.client.clientKey}
+          courseMealKey={item.courseMeal.courseMealKey}
+          dishKey={item.dish.dishKey}
         />
       )}
     />
