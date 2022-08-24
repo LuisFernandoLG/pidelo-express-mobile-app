@@ -96,23 +96,22 @@ const data = [
 export const useTableList = () => {
   const [tables, setTables] = useState(null);
 
-  const { socket } = useWebSocketsIO();
-
-  const recieveTables = (tables) => {
-    setTables(newTables);
-  };
+  const { getTablesFromDBEmit, listenForTables, removeListenerForTables } = useWebSocketsIO();
 
   useEffect(() => {
-    console.log("Home Page rendered!");
-    socket.emit("client:waiter:getTables", (res) => {
-      setTables(res.tables);
-    });
-
-    socket.on("server:tables", recieveTables);
+    getTablesFromDBEmit((tables)=>{
+      console.log("render first time again")
+      setTables(tables);
+    })
+    
+    listenForTables((tables)=>{
+      setTables(tables);
+    })
 
     return () => {
-      return socket.off("server:tables", recieveTables);
-    };
+      removeListenerForTables();
+    }
+
   }, []);
 
   return { tables };

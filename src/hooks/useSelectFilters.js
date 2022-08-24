@@ -13,7 +13,8 @@ export const useSelectFilters = () => {
   const [courseMealSelected, setCourseMealSelected] = useState("");
   const [clientSelected, setClientSelected] = useState("");
 
-  const { socket } = useWebSocketsIO();
+  const { getOrdersForWaiters, listenForOrders, removeListenerForOrders } = useWebSocketsIO();
+  
 
   const formataValuesAndSet = (orders)=>{
     const onlyOrderValues = filterOrdersById({ orders });
@@ -21,17 +22,15 @@ export const useSelectFilters = () => {
   }
 
   useEffect(() => {
-    socket.emit("client:waiter:getOrders", waiterId, (res) => {
-      const onlyOrderValues = filterOrdersById({ orders: res.orders });
+    getOrdersForWaiters((data)=>{
+      const onlyOrderValues = filterOrdersById({ orders: data });
       setOrders(onlyOrderValues);
-    });
 
-    socket.on("server:orders", formataValuesAndSet);
+    })
 
-    return ()=>{
-      console.log("server:orders")
-      socket.off("server:orders", formataValuesAndSet)
-    }
+    listenForOrders(formataValuesAndSet)
+
+    return ()=> removeListenerForOrders()
   }, []);
 
   useEffect(() => {

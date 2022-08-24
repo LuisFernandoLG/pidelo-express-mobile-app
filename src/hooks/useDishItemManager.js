@@ -3,7 +3,8 @@ import { useWebSocketsIO } from "./useWebSocketsIO";
 
 export const useDishItemManager = ({ initialStatus }) => {
   const [currenStatus, setCurrentStatus] = useState(initialStatus);
-  const { socket } = useWebSocketsIO();
+  const { setDishReadyOnBD, setDishDeliveredOnDB } = useWebSocketsIO();
+  // const {} = useWebSocketsIO()
 
   useEffect(() => {
     if (currenStatus.name !== initialStatus.name) {
@@ -34,27 +35,6 @@ export const useDishItemManager = ({ initialStatus }) => {
     else if (newStatus.name === "Entregada") {
       setDishDeliveredOnDB(dbProps);
     }
-  };
-
-  const setDishReadyOnBD = ({ orderId, courseMealId, clientId, dishId }) => {
-    socket.emit(
-      "client:waiter:setDishReady",
-      { orderId, courseMealId, clientId, dishId },
-      (res) => {}
-    );
-  };
-
-  const setDishDeliveredOnDB = ({
-    orderId,
-    courseMealId,
-    clientId,
-    dishId,
-  }) => {
-    socket.emit(
-      "client:waiter:setDishDelivered",
-      { orderId, courseMealId, clientId, dishId },
-      (res) => {}
-    );
   };
 
   return { hanldeChangeValue, currenStatus };
