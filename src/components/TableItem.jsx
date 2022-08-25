@@ -4,20 +4,28 @@ import { FlexContainer } from "./FlexContainer";
 import { StyledText } from "./StyledText";
 import { TableStatus } from "./TableStatus";
 import { TouchableWrapper } from "./TouchableWrapper";
+import { Link, useLocation } from "react-router-native";
 
-export const TableItem = ({ name, status }) => {
- 
+export const TableItem = ({ id, name, status }) => {
+  // console.log({id})
+  const tableItem = { id, name };
 
   return (
-    <TouchableWrapper>
-      <FlexContainer style={styles.container} flex_jc_c flex_ai_c>
-        <StyledText fontSize="subTitle" fontWeight="bold">
-          {name}
-        </StyledText>
-        <TableStatus fontSize="small" fontWeight="bold" name={status.name}>
-          {status.name}
-        </TableStatus>
-      </FlexContainer>
+    <TouchableWrapper borderRadius={100}>
+      <Link
+        to="/32"
+        underlayColor={theme.colors.secondary}
+        state={{ tableItem }}
+      >
+        <FlexContainer style={styles.container} flex_jc_c flex_ai_c>
+          <StyledText fontSize="subTitle" fontWeight="bold">
+            {name}
+          </StyledText>
+          <TableStatus fontSize="small" fontWeight="bold" name={status.name}>
+            {status.name}
+          </TableStatus>
+        </FlexContainer>
+      </Link>
     </TouchableWrapper>
   );
 };
@@ -31,6 +39,5 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderColor: theme.colors.textPrimary,
     borderRadius: 100,
-
   },
 });

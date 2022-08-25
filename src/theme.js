@@ -2,17 +2,18 @@ import { Platform } from "react-native";
 
 export const theme = {
   statusBar: {
-    bgColor: "#ffff",
+    bgColor: "#f7f8fa",
     textColor: "#423734",
   },
   colors: {
-    textPrimary: "#45392f",
+    textPrimary: "#000000",
     textSecondary: "#a59886",
     primary:"#24CE85",
     secondary:"#C4C4C4",
+    touchable:"#DDDDDD",
     tertiary:"#F0F0F0",
-    white: "#fff",
-    background: "#edf7ff",
+    white: "#ffffff",
+    background: "#f7f8fa",
     tableStatuses : {
       free: "#24CE85",
       pending: "#C4C4C4",

@@ -1,17 +1,18 @@
 import { StyledText } from "./StyledText";
-import { Link, useLocation } from "react-router-native";
+import { useLocation } from "react-router-native";
 import { StyleSheet, View } from "react-native";
-import { FlexContainer } from "./FlexContainer";
 import { theme } from "../theme";
 import { TouchableWrapper } from "./TouchableWrapper.ios";
+import { StyledLink } from "./StyledLink";
 
-export const StatusBarTab = ({ to, style = {}, children, ...rest }) => {
+export const StatusBarTab = ({ to, style = {}, children }) => {
+  
   let location = useLocation();
-  const isActive = location.pathname === to;
+  const isActive = to === location.pathname;
 
   return (
     <TouchableWrapper>
-      <Link to={to} {...rest} underlayColor="transparent">
+      <StyledLink to={to}>
         <View>
           <StyledText
             fontSize="subTitle"
@@ -26,7 +27,7 @@ export const StatusBarTab = ({ to, style = {}, children, ...rest }) => {
             style={[styles.tab, isActive && styles.activeTab]}
           ></StyledText>
         </View>
-      </Link>
+      </StyledLink>
     </TouchableWrapper>
   );
 };
@@ -39,8 +40,9 @@ const styles = StyleSheet.create({
     width: 150,
     height: 5,
     borderRadius: 10,
+    paddingHorizontal:10,
     // backgroundColor: theme.colors.secondary,
-    marginHorizontal: 20,
+    // marginHorizontal: 20,
   },
   activeTab: {
     backgroundColor: theme.colors.primary,

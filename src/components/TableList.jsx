@@ -18,7 +18,8 @@ export const TableList = () => {
           renderItem={({ item: table }) => {
             return (
               <TableItem
-                key={table.id}
+                key={table._id}
+                id={table._id}
                 name={table.name}
                 status={table.status}
               />

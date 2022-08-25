@@ -23,6 +23,6 @@ const styles = StyleSheet.create({
   image: {},
 
   circle: {
-    borderRadius: 30,
+    borderRadius: 80,
   },
 });

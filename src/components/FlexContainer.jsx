@@ -17,6 +17,7 @@ export const FlexContainer = ({
   pd,
   pdTop,
   pdBottom,
+  pdHorizontal,
   flex,
   flexGrow,
   style = {},
@@ -25,6 +26,7 @@ export const FlexContainer = ({
   const containerStyle = [
     flex_direction_r && styles.flex_direction_r,
     flex && { flex: flex },
+    pdHorizontal && { paddingHorizontal: pdHorizontal },
     flexGrow && { flexGrow: flexGrow },
     pdTop && { paddingTop: pdTop },
     pdBottom && { paddingBottom: pdBottom },

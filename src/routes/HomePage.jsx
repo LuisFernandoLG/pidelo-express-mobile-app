@@ -1,10 +1,10 @@
 import { FlexContainer } from "../components/FlexContainer";
-import { TableList } from "../components/TableList";
+import { Outlet } from "react-router-native";
 
 export const HomePage = () => {
   return (
-    <FlexContainer flex={1} flex_ai_c flex_jc_c pdTop={20}>
-        <TableList />
+    <FlexContainer flex={1}>
+        <Outlet/>
     </FlexContainer>
   );
 };
