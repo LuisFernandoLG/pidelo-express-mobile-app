@@ -1,8 +1,11 @@
+import { useEffect, useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
+import { api } from "../services/api";
 import { CategoryDishCarrouselItem } from "./CategoryDishCarrouselItem";
 import { FlexContainer } from "./FlexContainer";
 import { StyledLink } from "./StyledLink";
 import { StyledText } from "./StyledText";
+import { TouchableWrapper } from "./TouchableWrapper.android";
 
 const categories = [
   {
@@ -42,6 +45,17 @@ export const CategoryDishCarrousel = ({
   setCategorySelected,
   categorySelected,
 }) => {
+  const [categories, setCategories] = useState(null);
+
+  const fetchCategories = async () => {
+    const categoriesFromDB = await api().getCategories();
+    setCategories(categoriesFromDB);
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   return (
     <FlexContainer>
       <FlexContainer flex_direction_r flex_jc_sb flex_ai_c pdHorizontal={20}>
@@ -49,32 +63,39 @@ export const CategoryDishCarrousel = ({
           Categorías
         </StyledText>
         {categorySelected && (
-          <StyledText
-            style={styles.selectedItem}
-            fontWeight="bold"
-            fontSize="subTitle"
-          >
-            {categorySelected.name}
-          </StyledText>
+          <FlexContainer flex_direction_r flex_jc_c flex_ai_c>
+            <StyledText
+              style={styles.selectedItem}
+              fontWeight="bold"
+              fontSize="subTitle"
+            >
+              {categorySelected.name}
+            </StyledText>
+            <TouchableWrapper onPress={() => setCategorySelected(null)}>
+              <StyledText style={styles.removeButton}>x</StyledText>
+            </TouchableWrapper>
+          </FlexContainer>
         )}
       </FlexContainer>
 
-      <FlatList
-        data={categories}
-        style={styles.carrousel}
-        horizontal={true}
-        scr
-        renderItem={({ item: category }) => {
-          return (
-            <CategoryDishCarrouselItem
-              key={category.id}
-              isSelected={categorySelected?.id === category.id}
-              setCategorySelected={setCategorySelected}
-              category={category}
-            />
-          );
-        }}
-      />
+      {categories && (
+        <FlatList
+          data={categories}
+          style={styles.carrousel}
+          horizontal={true}
+          scr
+          renderItem={({ item: category }) => {
+            return (
+              <CategoryDishCarrouselItem
+                key={category._id}
+                isSelected={categorySelected?._id === category._id}
+                setCategorySelected={setCategorySelected}
+                category={category}
+              />
+            );
+          }}
+        />
+      )}
     </FlexContainer>
   );
 };
@@ -82,6 +103,10 @@ export const CategoryDishCarrousel = ({
 const styles = StyleSheet.create({
   carrousel: {
     flexDirection: "row",
+    marginLeft: 10,
   },
-  selectedItem: {},
+  selectedItemContainer: {},
+  removeButton: {
+    padding: 5,
+  },
 });

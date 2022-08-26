@@ -2,9 +2,16 @@ import { useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { theme } from "../theme";
 
-export const TouchableWrapper = ({ children, borderRadius, ...props }) => {
+export const TouchableWrapper = ({
+  style = {},
+  children,
+  borderRadius,
+  ...props
+}) => {
+  const touchableWrapperStyle = [styles({ borderRadius }).container, style];
+
   return (
-    <View style={styles({ borderRadius }).container}>
+    <View style={touchableWrapperStyle}>
       <Pressable
         style={{ borderRadius: borderRadius }}
         android_ripple={{ color: theme.colors.secondary, borderless: false }}

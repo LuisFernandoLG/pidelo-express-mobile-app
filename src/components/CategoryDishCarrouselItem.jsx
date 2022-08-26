@@ -13,7 +13,7 @@ export const CategoryDishCarrouselItem = ({
   return (
     <TouchableWrapper onPress={() => setCategorySelected(category)}>
       <FlexContainer
-        style={[styles.container, isSelected && styles.isSelected]}
+        style={[theme.card, styles.container, isSelected && styles.isSelected]}
         flexGrow={1}
       >
         <StyledImage
@@ -32,23 +32,13 @@ export const CategoryDishCarrouselItem = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 10,
+
+    marginRight: 10,
     marginVertical: 10,
     paddingBottom: 10,
     borderRadius: 5,
-
     overflow: "hidden",
     backgroundColor: theme.colors.white,
-
-    // Shadow
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 1,
-    shadowOffset: { width: 10, height: 10 },
-    shadowColor: "black",
-    shadowOpacity: 1,
-    elevation: 2, // changed to a greater value
   },
   isSelected: {
     backgroundColor: "red",

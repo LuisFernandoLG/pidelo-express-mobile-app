@@ -8,26 +8,39 @@ export const theme = {
   colors: {
     textPrimary: "#000000",
     textSecondary: "#a59886",
-    primary:"#24CE85",
-    secondary:"#C4C4C4",
-    touchable:"#DDDDDD",
-    tertiary:"#F0F0F0",
+    primary: "#24CE85",
+    secondary: "#C4C4C4",
+    touchable: "#DDDDDD",
+    tertiary: "#F0F0F0",
     white: "#ffffff",
     background: "#f7f8fa",
-    tableStatuses : {
+    tableStatuses: {
       free: "#24CE85",
       pending: "#C4C4C4",
-      inProcess : "#ff9800",
-      completed: "#2196f5"
+      inProcess: "#ff9800",
+      completed: "#2196f5",
     },
-    dishStatuses:{
+    dishStatuses: {
       pending: "#C4C4C4",
-      inProcess : "#ff9800",
+      inProcess: "#ff9800",
       delivering: "#2196f5",
       completed: "#24CE85",
-    }
+    },
   },
-
+  card: {
+    backgroundColor: "#ffffff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 1,
+    shadowOffset: { width: 10, height: 10 },
+    shadowColor: "#000",
+    shadowOpacity: 1,
+    elevation: 2, // changed to a greater value
+  },
+  border:{
+    borderRadius:5
+  },
   fontSizes: {
     mainTitle: 25,
     title: 24,
