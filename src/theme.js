@@ -37,6 +37,8 @@ export const theme = {
     shadowColor: "#000",
     shadowOpacity: 1,
     elevation: 2, // changed to a greater value
+
+    borderRadius:5
   },
   border:{
     borderRadius:5
